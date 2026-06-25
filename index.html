@@ -24,8 +24,8 @@
             position: relative;
             overflow: hidden;
         }
-        header h1 { margin: 0; font-size: 3rem; letter-spacing: 1px; }
-        header p { margin: 0.5rem 0 1.5rem; color: var(--accent); font-size: 1.4rem; font-weight: 300; }
+        header h1 { margin: 0; font-size: 5rem; letter-spacing: 10px; }
+        header p { margin: 0.5rem 0 1.5rem; color: var(--accent); font-size: 2.5rem; font-weight: 500; }
         
         .social-links a {
             color: #fff;
@@ -109,28 +109,91 @@
         .timeline-item span { font-size: 0.85rem; color: #64748b; font-weight: 600; }
 
         footer { text-align: center; padding: 2rem; color: #64748b; font-size: 0.9rem; border-top: 1px solid #e2e8f0; margin-top: 4rem; }
+        .scroll-btn {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background-color: #ffffff; /* خلفية بيضاء */
+            color: #2563eb; /* السهم أزرق */
+            border: 2px solid #2563eb; /* إطار أزرق خفيف للتحديد */
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.2); /* ظل أزرق خفيف */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        .scroll-btn:hover {
+            background-color: #f0f5ff; /* تغيير خفيف جداً عند مرور الماوس */
+            transform: translateY(-3px); /* حركة رفع خفيفة */
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.3);
+        }
+        html {
+            scroll-behavior: smooth;
+        }
     </style>
 </head>
 <body>
+<button class="scroll-btn" id="smartScrollBtn" onclick="toggleScroll()" title="Navigate Page">
+    <i class="fas fa-chevron-down" id="scrollIcon"></i>
+</button>
 
+<script>
+    // دالة التحكم في السكرول والتبديل
+    function toggleScroll() {
+        const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+        const totalHeight = document.body.scrollHeight - window.innerHeight;
+        
+        // لو إحنا في النصف العلوي ينزل تحت، لو في النصف السفلي يطلع فوق
+        if (currentScroll < (totalHeight / 2)) {
+            window.scrollTo(0, document.body.scrollHeight);
+        } else {
+            window.scrollTo(0, 0);
+        }
+    }
+
+    // مراقبة السكرول لتغيير شكل السهم تلقائياً
+    window.onscroll = function() {
+        const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+        const totalHeight = document.body.scrollHeight - window.innerHeight;
+        const icon = document.getElementById('scrollIcon');
+        
+        if (currentScroll > (totalHeight / 2)) {
+            icon.className = "fas fa-chevron-up"; // يقلب السهم لفوق لو نزلنا تحت
+        } else {
+            icon.className = "fas fa-chevron-down"; // يرجع السهم لتحت لو طلعنا فوق
+        }
+    };
+</script>
 <header>
     <h1>Sohaib Omar</h1>
-    <p>Data Engineer / Analyst</p>
+    <p>Data Engineer & Analyst</p>
     <div class="social-links">
         <a href="https://github.com/Sohaib-Omar18800" target="_blank"><i class="fab fa-github"></i></a>
-        <!-- حط لينك الـ LinkedIn بتاعك مكان علامة الـ # اللي تحت دي -->
-        <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+        <a href="https://www.linkedin.com/in/sohaib-omar-188oo/" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin"></i></a>
+    </div>
+    <div style="margin-top: 1.5rem;">
+        <a href="mailto:sohaibomar18800@gmail.com?subject=Data%20Project%20Inquiry%20-%20Sohaib%20Omar" class="btn" style="background: #10b981; max-width: 290px; margin: 0 auto; display: block; border: none; box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3); font-size: 1rem;"><i class="fas fa-lightbulb"></i> Hire a Business-Driven Data Engineer</a>
     </div>
 </header>
-
+    
 <div class="container">
     
     <!-- About Me -->
     <section class="card">
         <h2><i class="fas fa-user"></i> About Me</h2>
-        <p>Mechanical Engineering graduate turned Data Professional. I bridge the gap between engineering logic and data architecture. Specialized in building robust, scalable ETL/ELT pipelines, designing Medallion architectures, and orchestrating stream/batch processing systems.</p>
+        <p>
+            I am a <strong>Mechanical Engineering graduate</strong> who discovered a passion for data. I specialize in bridging the gap between raw data infrastructure and actionable business insights, operating effectively as both a <strong>Data Engineer and Data Analyst</strong>. 
+        </p>
+        <p>
+            With a solid foundation from the <strong>Information Technology Institute (ITI)</strong> and ongoing advanced training at <strong>Next Academy</strong>, I design and automate scalable ETL/ELT pipelines (Medallion Architecture, Kafka, Spark, Airflow) while maintaining the analytical mindset required to build high-impact business dashboards (Power BI, SQL, Excel) that drive smart decisions.
+        </p>
     </section>
-
     <!-- Education & Training -->
     <section class="card">
         <h2><i class="fas fa-graduation-cap"></i> Education & Training</h2>
@@ -161,12 +224,16 @@
                 <p>An end-to-end real-time data ingestion pipeline built on Kappa Architecture to handle and analyze e-commerce marketplace streaming data smoothly.</p>
                 <div class="tags">
                     <span class="tag"><i class="fab fa-python"></i> PySpark</span>
-                    <span class="tag">Apache Kafka</span>
-                    <span class="tag">Streaming</span>
+                    <span class="tag"><i class="fas fa-cubes"></i> Apache Kafka</span>
+                    <span class="tag"><i class="fas fa-snowflake"></i> Apache Iceberg</span>
+                    <span class="tag"><i class="fas fa-search"></i> Elastic Search</span>
+                    <span class="tag"><i class="fab fa-microsoft"></i> Power BI</span>
+                    <span class="tag"><i class="fas fa-cloud"></i> SnowFlake</span>
+                    <span class="tag"><i class="fas fa-bolt"></i> Streaming</span>
                 </div>
             </div>
             <div class="btn-group">
-                <a href="https://github.com/Sohaib-Omar18800/Olist_Streaming_Pipeline" class="btn" target="_blank"><i class="fab fa-github"></i> Code</a>
+                <a href="https://github.com/Sohaib-Omar18800/ITI-Grad-Project" class="btn" target="_blank"><i class="fab fa-github"></i> Code</a>
             </div>
         </div>
 
@@ -176,13 +243,15 @@
                 <h3>Automated ETL - Medallion Architecture</h3>
                 <p>An automated pipeline framework built for SQL Server, organizing data storage into structured Bronze, Silver, and Gold layers for reliable analytics.</p>
                 <div class="tags">
-                    <span class="tag">SQL Server</span>
-                    <span class="tag">ETL Framework</span>
-                    <span class="tag">Medallion</span>
+                    <span class="tag"><i class="fas fa-database"></i> SQL Server</span>
+                    <span class="tag"><i class="fas fa-network-wired"></i> ETL Framework</span>
+                    <span class="tag"><i class="fas fa-bear-track"></i> Polars</span>
+                    <span class="tag"><i class="fab fa-python"></i> Python</span>
+                    <span class="tag"><i class="fas fa-layer-group"></i> Medallion</span>
                 </div>
             </div>
             <div class="btn-group">
-                <a href="https://github.com/Sohaib-Omar18800/Automated-ETL-Framework-for-SQL-Server-Using-Medallion-Architecture" class="btn" target="_blank"><i class="fab fa-github"></i> Code</a>
+                <a href="https://github.com/Sohaib-Omar18800/Automated-ETL-Framework-SQLServer" class="btn" target="_blank"><i class="fab fa-github"></i> Code</a>
             </div>
         </div>
 
@@ -192,18 +261,36 @@
                 <h3>Crypto Pipeline & Monitoring</h3>
                 <p>Automated crypto scraping and monitoring pipeline orchestrated via Airflow, features failure recovery and instant alerts through a Telegram Bot.</p>
                 <div class="tags">
-                    <span class="tag">Apache Airflow</span>
-                    <span class="tag">Telegram Bot</span>
-                    <span class="tag">Automation</span>
+                    <span class="tag"><i class="fas fa-wind"></i> Apache Airflow</span>
+                    <span class="tag"><i class="fas fa-chart-line"></i> Grafana</span>
+                    <span class="tag"><i class="fas fa-spider"></i> Web Scrap</span>
+                    <span class="tag"><i class="fas fa-soup"></i> Beautiful Soup</span>
+                    <span class="tag"><i class="fas fa-exchange-alt"></i> Request</span>
+                    <span class="tag"><i class="fab fa-telegram"></i> Telegram Bot</span>
+                    <span class="tag"><i class="fas fa-cogs"></i> Automation</span>
                 </div>
             </div>
             <div class="btn-group">
-                <a href="https://github.com/Sohaib-Omar18800/Crypto_Pipeline_With_Airflow_And_Telegram_Bot" class="btn" target="_blank"><i class="fab fa-github"></i> Code</a>
+                <a href="https://github.com/Sohaib-Omar18800/crypto-airflow-pipeline" class="btn" target="_blank"><i class="fab fa-github"></i> Code</a>
             </div>
         </div>
-
     </div>
-
+    <section class="card" style="background: linear-gradient(135deg, #1e3a8a 0%, #1e293b 100%); color: #fff; text-align: center; padding: 2.5rem 1.5rem; border-top: none;">
+        <h2 style="color: #fff; border: none; justify-content: center; font-size: 1.8rem;">
+            <i class="fas fa-rocket" style="color: #38bdf8;"></i> Looking for a Data Professional Who Understands Business?
+        </h2>
+        <p style="max-width: 700px; margin: 1rem auto 2rem; color: #cbd5e1; font-size: 1.1rem; line-height: 1.8;">
+            If you need someone who doesn't just build robust <strong>ETL/ELT pipelines</strong>, but also understands the <strong>Business Logic</strong> behind the data to build high-impact analytics that drive decisions—let's talk!
+        </p>
+        <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
+            <a href="mailto:sohaibomar18800.email@gmail.com?subject=Data%20Project%20Inquiry%20-%20Sohaib%20Omar" class="btn" style="background: #10b981; min-width: 200px; border: none; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4); padding: 0.8rem 1.5rem; font-size: 1rem;">
+                <i class="fas fa-envelope"></i> Drop Me an Email
+            </a>
+            <a href="https://www.linkedin.com/in/sohaib-omar-188oo/" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="min-width: 200px; padding: 0.8rem 1.5rem; font-size: 1rem; background: #3b82f6;">
+                <i class="fab fa-linkedin"></i> Connect on LinkedIn
+            </a>
+        </div>
+    </section>
     <footer>
         <p>&copy; 2026 Sohaib Omar. Built with <i class="fas fa-heart" style="color: #ef4444;"></i> using GitHub Pages.</p>
     </footer>

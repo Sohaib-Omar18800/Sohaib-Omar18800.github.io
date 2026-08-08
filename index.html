@@ -15,7 +15,7 @@
         }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; margin: 0; padding: 0; background-color: var(--light); color: #334155; }
         
-        /* حركة الـ Header */
+        /* حركة الـ Header وتقسيمه */
         header { 
             background: linear-gradient(135deg, var(--dark) 0%, #1e293b 100%); 
             color: #fff; 
@@ -24,6 +24,22 @@
             position: relative;
             overflow: hidden;
         }
+        /* Canvas خلفية الحركة */
+        #header-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        /* رفع المحتوى فوق الـ Canvas */
+        header .header-content {
+            position: relative;
+            z-index: 2;
+        }
+        
         header h1 { margin: 0; font-size: 5rem; letter-spacing: 10px; }
         header p { margin: 0.5rem 0 1.5rem; color: var(--accent); font-size: 2.5rem; font-weight: 500; }
         
@@ -61,7 +77,6 @@
             border-top: 5px solid var(--primary); 
             transition: all 0.3s ease;
         }
-        /* حركة الرفع والـ Shadow عند مرور الماوس */
         .project-card:hover { 
             transform: translateY(-8px); 
             box-shadow: 0 12px 24px rgba(37, 99, 235, 0.15);
@@ -113,14 +128,14 @@
             position: fixed;
             bottom: 25px;
             right: 25px;
-            background-color: #ffffff; /* خلفية بيضاء */
-            color: #2563eb; /* السهم أزرق */
-            border: 2px solid #2563eb; /* إطار أزرق خفيف للتحديد */
+            background-color: #ffffff;
+            color: #2563eb;
+            border: 2px solid #2563eb;
             width: 48px;
             height: 48px;
             border-radius: 50%;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.2); /* ظل أزرق خفيف */
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.2);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -129,8 +144,8 @@
             z-index: 1000;
         }
         .scroll-btn:hover {
-            background-color: #f0f5ff; /* تغيير خفيف جداً عند مرور الماوس */
-            transform: translateY(-3px); /* حركة رفع خفيفة */
+            background-color: #f0f5ff;
+            transform: translateY(-3px);
             box-shadow: 0 6px 20px rgba(37, 99, 235, 0.3);
         }
         html {
@@ -144,12 +159,10 @@
 </button>
 
 <script>
-    // دالة التحكم في السكرول والتبديل
     function toggleScroll() {
         const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
         const totalHeight = document.body.scrollHeight - window.innerHeight;
         
-        // لو إحنا في النصف العلوي ينزل تحت، لو في النصف السفلي يطلع فوق
         if (currentScroll < (totalHeight / 2)) {
             window.scrollTo(0, document.body.scrollHeight);
         } else {
@@ -157,31 +170,88 @@
         }
     }
 
-    // مراقبة السكرول لتغيير شكل السهم تلقائياً
     window.onscroll = function() {
         const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
         const totalHeight = document.body.scrollHeight - window.innerHeight;
         const icon = document.getElementById('scrollIcon');
         
         if (currentScroll > (totalHeight / 2)) {
-            icon.className = "fas fa-chevron-up"; // يقلب السهم لفوق لو نزلنا تحت
+            icon.className = "fas fa-chevron-up";
         } else {
-            icon.className = "fas fa-chevron-down"; // يرجع السهم لتحت لو طلعنا فوق
+            icon.className = "fas fa-chevron-down";
         }
     };
 </script>
+
 <header>
-    <h1>Sohaib Omar</h1>
-    <p>Data Engineer & Analyst</p>
-    <div class="social-links">
-        <a href="https://github.com/Sohaib-Omar18800" target="_blank"><i class="fab fa-github"></i></a>
-        <a href="https://www.linkedin.com/in/sohaib-omar-188oo/" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin"></i></a>
-    </div>
-    <div style="margin-top: 1.5rem;">
-        <a href="mailto:sohaibomar18800@gmail.com?subject=Data%20Project%20Inquiry%20-%20Sohaib%20Omar" class="btn" style="background: #10b981; max-width: 290px; margin: 0 auto; display: block; border: none; box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3); font-size: 1rem;"><i class="fas fa-lightbulb"></i> Hire a Business-Driven Data Engineer</a>
+    <!-- خلفية الحركة -->
+    <canvas id="header-bg"></canvas>
+    
+    <div class="header-content">
+        <h1>Sohaib Omar</h1>
+        <p>Data Analyst | Data Engineer</p>
+        <div class="social-links">
+            <a href="https://github.com/Sohaib-Omar18800" target="_blank"><i class="fab fa-github"></i></a>
+            <a href="https://www.linkedin.com/in/sohaib-omar-188oo/" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin"></i></a>
+        </div>
+        <div style="margin-top: 1.5rem;">
+            <a href="mailto:sohaibomar18800@gmail.com?subject=Data%20Project%20Inquiry%20-%20Sohaib%20Omar" class="btn" style="background: #10b981; max-width: 350px; margin: 0 auto; display: block; border: none; box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3); font-size: 1rem;"><i class="fas fa-lightbulb"></i> Hire a Driven Data Analyst & Data Engineer</a>
+        </div>
     </div>
 </header>
-    
+
+<!-- كود حركة الجزيئات الخفيفة والتلقائية -->
+<script>
+    const canvas = document.getElementById('header-bg');
+    const ctx = canvas.getContext('2d');
+
+    function resizeCanvas() {
+        canvas.width = canvas.parentElement.offsetWidth;
+        canvas.height = canvas.parentElement.offsetHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    const particles = [];
+    const particleCount = 45; // عدد الجزيئات لضمان خفتها وسرعتها
+
+    for (let i = 0; i < particleCount; i++) {
+        particles.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            radius: Math.random() * 2 + 10,
+            color: `rgba(256, 189, 248, ${Math.random() * 0.5 + 0.2})`, // لون أزرق السماوي خفيف متناسق
+            vx: (Math.random() - 0.5) * 0.8, // حركة أفقية خفيفة كالريح
+            vy: -Math.random() * 0.5 - 0.1 // ارتفاع خفيف لأعلى
+        });
+    }
+
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        particles.forEach(p => {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+            ctx.fillStyle = p.color;
+            ctx.fill();
+
+            p.x += p.vx;
+            p.y += p.vy;
+
+            // إعادة الجزيء من الأسفل عند الخروج من الشاشة
+            if (p.y < 0) {
+                p.y = canvas.height;
+                p.x = Math.random() * canvas.width;
+            }
+            if (p.x < 0) p.x = canvas.width;
+            if (p.x > canvas.width) p.x = 0;
+        });
+
+        requestAnimationFrame(animate);
+    }
+    animate();
+</script>
+
 <div class="container">
     
     <!-- About Me -->
@@ -194,6 +264,7 @@
             With a solid foundation from the <strong>Information Technology Institute (ITI)</strong> and ongoing advanced training at <strong>Next Academy</strong>, I design and automate scalable ETL/ELT pipelines (Medallion Architecture, Kafka, Spark, Airflow) while maintaining the analytical mindset required to build high-impact business dashboards (Power BI, SQL, Excel) that drive smart decisions.
         </p>
     </section>
+
     <!-- Education & Training -->
     <section class="card">
         <h2><i class="fas fa-graduation-cap"></i> Education & Training</h2>
@@ -217,7 +288,7 @@
     <h2><i class="fas fa-code"></i> Featured Projects</h2>
     <div class="projects-grid">
         
-        <!-- Project 1 -->
+        <!-- DATA ENGINEERING PROJECTS -->
         <div class="project-card">
             <div>
                 <h3>Real-Time Olist Streaming Pipeline</h3>
@@ -237,7 +308,6 @@
             </div>
         </div>
 
-        <!-- Project 2 -->
         <div class="project-card">
             <div>
                 <h3>Automated ETL - Medallion Architecture</h3>
@@ -255,7 +325,6 @@
             </div>
         </div>
 
-        <!-- Project 3 -->
         <div class="project-card">
             <div>
                 <h3>Crypto Pipeline & Monitoring</h3>
@@ -275,72 +344,7 @@
             </div>
         </div>
 
-        <!-- Project 4 (E-Commerce Dashboard) -->
-        <div class="project-card" style="border-top-color: #10b981;">
-            <div>
-                <h3>E-Commerce Sales Dashboard</h3>
-                <p>An interactive dynamic dashboard engineered via Excel, utilizing Power Query for data extraction and Power Pivot to model 23M+ in marketplace sales channels.</p>
-                <div class="tags">
-                    <span class="tag"><i class="fas fa-file-excel"></i> Advanced Excel</span>
-                    <span class="tag"><i class="fas fa-filter"></i> Power Query</span>
-                    <span class="tag"><i class="fas fa-database"></i> Power Pivot (DAX)</span>
-                </div>
-            </div>
-            <div class="btn-group">
-                <a href="https://github.com/Sohaib-Omar18800/e-commerce-dashboard" class="btn" style="background: #10b981;" target="_blank"><i class="fab fa-github"></i> Code</a>
-            </div>
-        </div>
-
-        <!-- Project 5 (Company Sales Dataset) -->
-        <div class="project-card" style="border-top-color: #10b981;">
-            <div>
-                <h3>Company Sales Performance Analysis</h3>
-                <p>A sleek corporate executive dashboard utilizing Power Pivot modeling to track salesperson performance extremes, monthly variances, and MoM growth metrics.</p>
-                <div class="tags">
-                    <span class="tag"><i class="fas fa-file-excel"></i> Excel Analytics</span>
-                    <span class="tag"><i class="fas fa-chart-line"></i> Data Modeling</span>
-                    <span class="tag"><i class="fas fa-calculator"></i> DAX Measures</span>
-                </div>
-            </div>
-            <div class="btn-group">
-                <a href="https://github.com/Sohaib-Omar18800/company_sales_dataset" class="btn" style="background: #10b981;" target="_blank"><i class="fab fa-github"></i> Code</a>
-            </div>
-        </div>
-
-        <!-- Project 6 (Car Sales Dashboard) -->
-        <div class="project-card" style="border-top-color: #10b981;">
-            <div>
-                <h3>Car Sales Executive Dashboard</h3>
-                <p>An advanced Neon-themed sales performance matrix modeling $371M+ in corporate car dealership revenues, tracking YTD growth and profitability curves via Power Pivot and DAX.</p>
-                <div class="tags">
-                    <span class="tag"><i class="fas fa-file-excel"></i> Advanced Excel</span>
-                    <span class="tag"><i class="fas fa-chart-bar"></i> Waterfall Analytics</span>
-                    <span class="tag"><i class="fas fa-database"></i> Power Pivot (DAX)</span>
-                </div>
-            </div>
-            <div class="btn-group">
-                <a href="https://github.com/Sohaib-Omar18800/car_sales_dataset" class="btn" style="background: #10b981;" target="_blank"><i class="fab fa-github"></i> Code</a>
-            </div>
-        </div>
-
-        <!-- Project 7 (Marketing Analysis Dashboard) -->
-        <div class="project-card" style="border-top-color: #10b981;">
-            <div>
-                <h3>Marketing Analysis</h3>
-                <p>A corporate marketing funnel analytics platform tracking 14.6M+ engagement events, analyzing channel traffic efficiency, customer review sentiments, and conversion rates.</p>
-                <div class="tags">
-                    <span class="tag"><i class="fas fa-database"></i> SQL (Data Cleaning & Views)</span>
-                    <span class="tag"><i class="fas fa-file-excel"></i> Excel</span>
-                    <span class="tag"><i class="fas fa-funnel-dollar"></i> Funnel Analysis</span>
-                    <span class="tag"><i class="fas fa-bullhorn"></i> Marketing Analytics</span>
-                </div>
-            </div>
-            <div class="btn-group">
-                <a href="https://github.com/Sohaib-Omar18800/marketing_analysis" class="btn" style="background: #10b981;" target="_blank"><i class="fab fa-github"></i> Code</a>
-            </div>
-        </div>
-
-        <!-- Project 8: Amazon Phone Sales Analysis (Power BI) -->
+        <!-- POWER BI PROJECT -->
         <div class="project-card" style="border-top-color: #F2C811; grid-column: 1;">
             <div>
                 <h3>Amazon Phone Sales Analysis</h3>
@@ -368,7 +372,69 @@
             </div>
         </div>
 
-    </div> <!-- قفلة الـ projects-grid الصح علشان الـ Call to Action يتفصل عنها -->
+        <!-- EXCEL PROJECTS -->
+        <div class="project-card" style="border-top-color: #10b981; grid-column: 1;">
+            <div>
+                <h3>E-Commerce Sales Dashboard</h3>
+                <p>An interactive dynamic dashboard engineered via Excel, utilizing Power Query for data extraction and Power Pivot to model 23M+ in marketplace sales channels.</p>
+                <div class="tags">
+                    <span class="tag"><i class="fas fa-file-excel"></i> Advanced Excel</span>
+                    <span class="tag"><i class="fas fa-filter"></i> Power Query</span>
+                    <span class="tag"><i class="fas fa-database"></i> Power Pivot (DAX)</span>
+                </div>
+            </div>
+            <div class="btn-group">
+                <a href="https://github.com/Sohaib-Omar18800/e-commerce-dashboard" class="btn" style="background: #10b981;" target="_blank"><i class="fab fa-github"></i> Code</a>
+            </div>
+        </div>
+
+        <div class="project-card" style="border-top-color: #10b981;">
+            <div>
+                <h3>Company Sales Performance Analysis</h3>
+                <p>A sleek corporate executive dashboard utilizing Power Pivot modeling to track salesperson performance extremes, monthly variances, and MoM growth metrics.</p>
+                <div class="tags">
+                    <span class="tag"><i class="fas fa-file-excel"></i> Excel Analytics</span>
+                    <span class="tag"><i class="fas fa-chart-line"></i> Data Modeling</span>
+                    <span class="tag"><i class="fas fa-calculator"></i> DAX Measures</span>
+                </div>
+            </div>
+            <div class="btn-group">
+                <a href="https://github.com/Sohaib-Omar18800/company_sales_dataset" class="btn" style="background: #10b981;" target="_blank"><i class="fab fa-github"></i> Code</a>
+            </div>
+        </div>
+
+        <div class="project-card" style="border-top-color: #10b981;">
+            <div>
+                <h3>Car Sales Executive Dashboard</h3>
+                <p>An advanced Neon-themed sales performance matrix modeling $371M+ in corporate car dealership revenues, tracking YTD growth and profitability curves via Power Pivot and DAX.</p>
+                <div class="tags">
+                    <span class="tag"><i class="fas fa-file-excel"></i> Advanced Excel</span>
+                    <span class="tag"><i class="fas fa-chart-bar"></i> Waterfall Analytics</span>
+                    <span class="tag"><i class="fas fa-database"></i> Power Pivot (DAX)</span>
+                </div>
+            </div>
+            <div class="btn-group">
+                <a href="https://github.com/Sohaib-Omar18800/car_sales_dataset" class="btn" style="background: #10b981;" target="_blank"><i class="fab fa-github"></i> Code</a>
+            </div>
+        </div>
+
+        <div class="project-card" style="border-top-color: #10b981;">
+            <div>
+                <h3>Marketing Analysis</h3>
+                <p>A corporate marketing funnel analytics platform tracking 14.6M+ engagement events, analyzing channel traffic efficiency, customer review sentiments, and conversion rates.</p>
+                <div class="tags">
+                    <span class="tag"><i class="fas fa-database"></i> SQL (Data Cleaning & Views)</span>
+                    <span class="tag"><i class="fas fa-file-excel"></i> Excel</span>
+                    <span class="tag"><i class="fas fa-funnel-dollar"></i> Funnel Analysis</span>
+                    <span class="tag"><i class="fas fa-bullhorn"></i> Marketing Analytics</span>
+                </div>
+            </div>
+            <div class="btn-group">
+                <a href="https://github.com/Sohaib-Omar18800/marketing_analysis" class="btn" style="background: #10b981;" target="_blank"><i class="fab fa-github"></i> Code</a>
+            </div>
+        </div>
+
+    </div>
 
     <!-- Call to Action Section -->
     <section class="card" style="background: linear-gradient(135deg, #1e3a8a 0%, #1e293b 100%); color: #fff; text-align: center; padding: 2.5rem 1.5rem; border-top: none; margin-top: 2.5rem;">
